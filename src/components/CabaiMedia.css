@@ -1,0 +1,48 @@
+@media screen and (min-width: 601px) {
+}
+
+/* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+@media screen and (max-width: 600px) {
+  .lingkaran.cabai {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  span.cabai {
+    font-size: 12px;
+  }
+
+  h1.cabai {
+    font-size: 20px;
+  }
+
+  h2.cabai {
+    margin-top: 5%;
+    font-size: 1rem;
+  }
+
+  .container.cabai {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .component.cabai {
+    padding: 7%;
+    margin-bottom: 30%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  button.cabai {
+    height: 40px;
+    width: 40%;
+  }
+
+  .cancelButton.cabai {
+    font-size: 12px;
+  }
+
+  .submitButton.cabai {
+    font-size: 12px;
+  }
+}
