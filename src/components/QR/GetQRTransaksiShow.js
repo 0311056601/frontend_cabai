@@ -163,6 +163,9 @@ export default class GetQRTransaksiShow extends Component {
                                 <p>
                                     <strong>Tanggal Transaksi:</strong> {moment(this.state.transaksi.created_at).format('DD - MMMM - YYYY H:s')}
                                 </p>
+                                <p>
+                                    <strong>Estimasi Sampai:</strong> {this.state.transaksi.est_sampai ? moment(this.state.transaksi.est_sampai).format('DD / MMM / YYYY') : 'Belum Diset'}
+                                </p>
                                 {
                                     this.state.data.transaksiHash && this.state.data.transaksiHash.hash ?
                                     (

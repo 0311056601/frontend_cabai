@@ -7,6 +7,7 @@ import {
   CCardHeader,
   CCol,
   CDataTable,
+  CFormGroup,
   CRow,
   CButton,
   CModal,
@@ -17,6 +18,8 @@ import {
 } from "@coreui/react";
 import UserService from '../../../services/user.service';
 import showResults from '../../showResults/showResults';
+import DatePicker from "react-datepicker";
+import "../../react-datepicker.css";
 import moment from 'moment';
 
 export default class ListTransaksiHistory extends Component {
@@ -25,6 +28,10 @@ export default class ListTransaksiHistory extends Component {
 
         this.state = {
             content: null,
+            estimasi: null,
+            modal: false,
+            dataTransaksi: null,
+            dataTransaksiId: null,
         };
     }
 
@@ -50,31 +57,61 @@ export default class ListTransaksiHistory extends Component {
 
     handleKirim = async (item) => {
 
-        await UserService.UpdateKirimProduk(item.id).then( async (response) => {
-            if(response.data.message) {
-                alert(response.data.message);
-            } else {
-                alert('Data berhasil diupdate');
+        if(this.state.estimasi) {
+
+            await UserService.UpdateKirimProduk(item.id, moment(this.state.estimasi).format('YYYY-MM-DD')).then( async (response) => {
+                if(response.data.message) {
+                    alert(response.data.message);
+                } else {
+                    alert('Data berhasil diupdate');
+                }
+            });
+
+            await UserService.ListTransaksiHistory().then( async (response) => {
+                this.setState({
+                    content: response.data.data,
+                });
+            },
+            (error) => {
+                this.setState({
+                content:
+                    (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                    error.message ||
+                    error.toString(),
+                });
             }
-        });
+            );
 
-        await UserService.ListTransaksiHistory().then( async (response) => {
-            this.setState({
-                content: response.data.data,
-            });
-        },
-        (error) => {
-            this.setState({
-            content:
-                (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-                error.message ||
-                error.toString(),
-            });
+            this.setModal()
+        } else {
+            alert('Estimasi perlu diisi!.');
         }
-        );
 
+    }
+
+    getDateEstimasi = async (date) => {
+
+        await this.setState({
+            estimasi: date,
+        })
+
+        await console.log('cek estimasi', moment(this.state.estimasi).format('DD-MM-YYYY'));
+        
+    }
+
+    setModal = async (data) => {
+        if(data) {
+            this.setState({
+                dataTransaksi: data,
+                dataTransaksiId: data.id,
+            })
+        }
+    
+        this.setState({
+          modal: !this.state.modal,
+        })
     }
 
 
@@ -174,7 +211,8 @@ export default class ListTransaksiHistory extends Component {
                                                                                 (
                                                                                     <>
                                                                                         <CButton size="sm" color="warning" style={{ color:"white" }} target="_blank" to={`/QRTransaksi/${item.get_keranjang.no_transaksi}`} >Lihat Data</CButton> &nbsp;
-                                                                                        <CButton size="sm" color="danger" onClick={() => this.handleKirim(item)} >Kirim Produk</CButton>
+                                                                                        {/* <CButton size="sm" color="danger" onClick={() => this.handleKirim(item)} >Kirim Produk</CButton> */}
+                                                                                        <CButton size="sm" color="danger" onClick={() => this.setModal(item)} >Kirim Produk</CButton>
                                                                                     </>
                                                                                 ) :
                                                                                 (<CButton size="sm" color="warning" style={{ color:"white" }} target="_blank" to={`/QRTransaksi/${item.get_keranjang.no_transaksi}`} >Lihat Data</CButton>)
@@ -201,6 +239,39 @@ export default class ListTransaksiHistory extends Component {
                             </CCard>
                         </div>
                     </main>
+
+                    <CModal 
+                        show={this.state.modal}
+                        color="warning"
+                    >
+                        {console.log('cek item di modal',this.state.dataTransaksi)}
+                        <CModalHeader closeButton>
+                            <CModalTitle>Kirim Produk</CModalTitle>
+                        </CModalHeader>
+                        <CModalBody>
+                            <strong>Produk akan dikirim ke alamat pembeli,</strong> tentukan estimasi produk sampai ke alamat pembeli
+                            <CFormGroup>
+                                <DatePicker
+                                    selected={this.state.estimasi}
+                                    className="textInput cabai"
+                                    onChange={(date) => this.getDateEstimasi(date)}
+                                    minDate={new Date()}
+                                    dateFormat="dd/MMM/yyyy"
+                                    name="estimasi_sampai"
+                                    required={true}
+                                    placeholderText="tentukan estimasi tanggal sampai..."
+                                />
+                            </CFormGroup>
+                        </CModalBody>
+                        <CModalFooter>
+                            <CButton color="danger" style={{color:"white"}} onClick={() => this.handleKirim(this.state.dataTransaksi)}> {' '}
+                                Kirim Produk
+                            </CButton>{' '}
+                            <CButton color="secondary" onClick={this.setModal}>
+                                Tutup
+                            </CButton>
+                        </CModalFooter>
+                    </CModal>
 
                 </Fragment>
             );

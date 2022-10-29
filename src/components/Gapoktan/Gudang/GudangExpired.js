@@ -19,6 +19,12 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
+  CTabContent,
+  CTabPane,
+  CTabs,
+  CNav,
+  CNavItem,
+  CNavLink,
 } from "@coreui/react";
 import UserService from '../../../services/user.service';
 import moment from 'moment';
@@ -47,6 +53,7 @@ export default class GudangExpired extends Component {
 
     this.state = {
       content: [],
+      contentProduk: [],
       modal: false,
       loading: false,
       color: "#3c4b64",
@@ -62,6 +69,7 @@ export default class GudangExpired extends Component {
         console.log('cek response get data', response);
         this.setState({
           content: response.data.data,
+          contentProduk: response.data.produkExpired,
         });
       },
       (error) => {
@@ -269,6 +277,7 @@ export default class GudangExpired extends Component {
         console.log('cek response get data', response);
         this.setState({
           content: response.data.data,
+          contentProduk: response.data.produkExpired,
         });
       },
       (error) => {
@@ -285,8 +294,6 @@ export default class GudangExpired extends Component {
 
   }
 
-  
-
   render() {
 
     const Data = [
@@ -302,139 +309,233 @@ export default class GudangExpired extends Component {
       },
     ];
 
+    const DataProduk = [
+      { key: "nama_produk", label: "Produk"},
+      { key: "volume", label: "Volume"},
+      { key: "tanggal_pengemasan", label: "Tanggal Pengemasan"},
+      {
+        key: "aksi",
+        label: "Aksi",
+        filter: false,
+        _style: { textAlign: "center", width: "15%" },
+      },
+    ];
+
     if(this.state.loading) {
-        return(
-          <>
-            <div style={{textAlign : 'center', verticalAlign : 'middle', paddingTop : "150px"}}>
-              <div className="sweet-loading">
-                <h5>Mohon Tunggu...</h5>
-                <br></br>
-                  <Loader color={this.state.color} loading={this.state.loading} css={override} size={150} />
-                <br></br>
-                <br></br>
-                <h5>Data sedang ditulis ke blockchain</h5>
-              </div>
+      return(
+        <>
+          <div style={{textAlign : 'center', verticalAlign : 'middle', paddingTop : "150px"}}>
+            <div className="sweet-loading">
+              <h5>Mohon Tunggu...</h5>
+              <br></br>
+                <Loader color={this.state.color} loading={this.state.loading} css={override} size={150} />
+              <br></br>
+              <br></br>
+              <h5>Data sedang ditulis ke blockchain</h5>
             </div>
-          </>
-        )
-      } else {
+          </div>
+        </>
+      )
+    } else {
 
-        return (
-            <Fragment>
-                <main className="c-main">
-                    <div className="container-fluid">
-                        <CCard>
-                            <CCardBody>
-                                <CRow>
-                                    <CCol xs="12">
-                                        <CCardHeader>
-                                            <CRow>
-                                            <CCol
-                                                xs={6}
-                                                md={7}
-                                                lg={10}
-                                                style={{ margin: "auto" }}
-                                            >
-                                                <h4 style={{ margin: "auto" }}>Data gudang yang telah diproses</h4>
-                                            </CCol>
-                                            </CRow>
-                                        </CCardHeader>
-                                        <CCardBody>
-                                            <CDataTable
-                                                items={this.state.content}
-                                                fields={Data}
-                                                itemsPerPage={10}
-                                                tableFilter
-                                                cleaner
-                                                itemsPerPageSelect
-                                                hover
-                                                sorter
-                                                pagination
-                                                scopedSlots={{
-                                                    created_at: (item) => {
-                                                    return (
-                                                        <>
-                                                        <td>
-                                                            {moment(item.created_at).format('DD / MMM / YYYY')}
-                                                        </td>
-                                                        </>
-                                                    )
-                                                    },
-                                                    jumlah_volume: (item) => {
-                                                    return (
-                                                        <>
-                                                        <td>
-                                                            {`${item.jumlah_volume} Kg`}
-                                                        </td>
-                                                        </>
-                                                    )
-                                                    },
-                                                    aksi: (item) => {
-                                                        return (
-                                                            <>
-                                                                <td>
-                                                                    {
-                                                                        item.status === 'Belum Dipost ke Blockchain' ? 
-                                                                        (
-                                                                            <>
-                                                                                <CButton type="button" size="sm" style={{color:"white"}} onClick={() => this.HapusData(item)} color="warning">Hapus</CButton>{" "}
-                                                                                <CButton type="button" size="sm" onClick={() => this.setModal(item)} color="danger">Blockchain</CButton>
-                                                                            </>
-                                                                        ) :
-                                                                        (
-                                                                            <>
-                                                                                <CButton type="button" size="sm" color="info" to={`QRProcessGudang/${item.id}`} >Detail</CButton>
-                                                                            </>
-                                                                        )
-                                                                    }
-                                                                </td>
-                                                            </>
-                                                        )
-                                                    },
-                                                }}
-                                            />
-                                        </CCardBody>
-                                    </CCol>
-                                </CRow>
-                            </CCardBody>
-                        </CCard>
-                    </div>
-                </main>
+      return (
+        <Fragment>
+          <main className="c-main">
+            <div className="container-fluid">
+              <CCard>
+                <CCardBody>
+                  <CRow>
+                    <CCol xs="12">
+                      <CCardHeader>
+                        <CRow>
+                          <CCol
+                            xs={6}
+                            md={7}
+                            lg={10}
+                            style={{ margin: "auto" }}
+                          >
+                            <h4 style={{ margin: "auto" }}>Data Expired</h4>
+                          </CCol>
+                        </CRow>
+                      </CCardHeader>
 
-                <CModal 
-                    show={this.state.modal} 
-                    onClick={this.setModal}
-                    color="warning"
-                >
-                    <CModalHeader closeButton>
-                        <CModalTitle>Generate QRCode</CModalTitle>
-                    </CModalHeader>
-                    <CModalBody>
-                        <strong>Pemberitahuan,</strong> ketika data digenerate maka data tidak bisa lagi diubah atau dihapus karena akan tercatat di blockchain dan dibuatkan QRCode
-                    </CModalBody>
-                    <CModalFooter>
-                        <CButton color="warning" to={`QRProcessGudang/${this.state.dataId}`} style={{color:"white"}} >
-                            Lihat data QRCode
-                        </CButton>{' '}
-                        <CButton color="danger" style={{color:"white"}} onClick={() => this.generateQR(this.state.dataExpired)}> {' '}
-                            Generate QRCode
-                        </CButton>{' '}
-                        <CButton color="secondary" onClick={this.setModal}>
-                            Tutup
-                        </CButton>
-                    </CModalFooter>
-                </CModal>
-                
-                <div style={{ visibility: "hidden" }}>
-                {this.state.qr ? (
-                    <QRcode id="myqr" value={this.state.qr} size={320} includeMargin={true} />
-                ) : (
-                    <p>No QR code preview</p>
-                )}
-                </div>
+                      <CTabs>
 
-            </Fragment>
-        );
+                        <CNav variant="tabs">
+                          <CNavItem>
+                            <CNavLink>Data Gudang Expired</CNavLink>
+                          </CNavItem>
+                          <CNavItem>
+                            <CNavLink>Produk Expired</CNavLink>
+                          </CNavItem>
+                        </CNav>
+
+                        <CTabContent>
+
+                          <CTabPane>
+                            <CCol>
+                              <CCardBody>
+                                <CDataTable
+                                  items={this.state.content}
+                                  fields={Data}
+                                  itemsPerPage={10}
+                                  tableFilter
+                                  cleaner
+                                  itemsPerPageSelect
+                                  hover
+                                  sorter
+                                  pagination
+                                  scopedSlots={{
+                                    created_at: (item) => {
+                                      return (
+                                        <>
+                                          <td>
+                                            {moment(item.created_at).format('DD / MMM / YYYY')}
+                                          </td>
+                                        </>
+                                      )
+                                    },
+                                    jumlah_volume: (item) => {
+                                      return (
+                                        <>
+                                          <td>
+                                            {`${item.jumlah_volume} Kg`}
+                                          </td>
+                                        </>
+                                      )
+                                    },
+                                    aksi: (item) => {
+                                      return (
+                                        <>
+                                          <td>
+                                            {
+                                              item.status === 'Belum Dipost ke Blockchain' ? 
+                                              (
+                                                <>
+                                                  <CButton type="button" size="sm" style={{color:"white"}} onClick={() => this.HapusData(item)} color="warning">Hapus</CButton>{" "}
+                                                  <CButton type="button" size="sm" onClick={() => this.setModal(item)} color="danger">Blockchain</CButton>
+                                                </>
+                                              ) :
+                                              (
+                                                <>
+                                                  <CButton type="button" size="sm" color="info" to={`QRProcessGudang/${item.id}`} >Detail</CButton>
+                                                </>
+                                              )
+                                            }
+                                          </td>
+                                        </>
+                                      )
+                                    },
+                                  }}
+                                />
+                              </CCardBody>
+                            </CCol>
+                          </CTabPane>
+
+                          <CTabPane>
+                            <CCol>
+                              <CCardBody>
+                                <CDataTable
+                                  items={this.state.contentProduk}
+                                  fields={DataProduk}
+                                  itemsPerPage={10}
+                                  tableFilter
+                                  cleaner
+                                  itemsPerPageSelect
+                                  hover
+                                  sorter
+                                  pagination
+                                  scopedSlots={{
+                                    tanggal_pengemasan: (item) => {
+                                      return (
+                                        <>
+                                          <td>
+                                            {moment(item.tanggal_pengemasan).format('DD / MMM / YYYY')}
+                                          </td>
+                                        </>
+                                      )
+                                    },
+                                    volume: (item) => {
+                                      return (
+                                        <>
+                                          <td>
+                                            {`${item.volume} Kg`}
+                                          </td>
+                                        </>
+                                      )
+                                    },
+                                    aksi: (item) => {
+                                      return (
+                                        <>
+                                          <td>
+                                            {
+                                              item.status === 'Belum Dipost ke Blockchain' ? 
+                                              (
+                                                <>
+                                                  <CButton type="button" size="sm" style={{color:"white"}} onClick={() => this.HapusData(item)} color="warning">Hapus</CButton>{" "}
+                                                  <CButton type="button" size="sm" onClick={() => this.setModal(item)} color="danger">Blockchain</CButton>
+                                                </>
+                                              ) :
+                                              (
+                                                <>
+                                                  <CButton type="button" size="sm" color="info" to={`QRProduk/${item.id}`} >Detail</CButton>
+                                                </>
+                                              )
+                                            }
+                                          </td>
+                                        </>
+                                      )
+                                    },
+                                  }}
+                                />
+                              </CCardBody>
+                            </CCol>
+                          </CTabPane>
+
+                        </CTabContent>
+
+                      </CTabs>
+                    </CCol>
+                  </CRow>
+                </CCardBody>
+              </CCard>
+            </div>
+          </main>
+
+          <CModal 
+            show={this.state.modal} 
+            onClick={this.setModal}
+            color="warning"
+          >
+            <CModalHeader closeButton>
+              <CModalTitle>Generate QRCode</CModalTitle>
+            </CModalHeader>
+            <CModalBody>
+              <strong>Pemberitahuan,</strong> ketika data digenerate maka data tidak bisa lagi diubah atau dihapus karena akan tercatat di blockchain dan dibuatkan QRCode
+            </CModalBody>
+            <CModalFooter>
+              <CButton color="warning" to={`QRProcessGudang/${this.state.dataId}`} style={{color:"white"}} >
+                  Lihat data QRCode
+              </CButton>{' '}
+              <CButton color="danger" style={{color:"white"}} onClick={() => this.generateQR(this.state.dataExpired)}> {' '}
+                  Generate QRCode
+              </CButton>{' '}
+              <CButton color="secondary" onClick={this.setModal}>
+                  Tutup
+              </CButton>
+            </CModalFooter>
+          </CModal>
+            
+          <div style={{ visibility: "hidden" }}>
+            {this.state.qr ? (
+              <QRcode id="myqr" value={this.state.qr} size={320} includeMargin={true} />
+            ) : (
+              <p>No QR code preview</p>
+            )}
+          </div>
+
+        </Fragment>
+      );
 
     }
   }

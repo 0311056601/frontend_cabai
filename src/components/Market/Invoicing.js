@@ -59,6 +59,7 @@ const Invoice = (props) => {
             <div>{moment(data.created_at).format('DD MMMM, YYYY')}</div>
             <div>Transaksi: {data.get_keranjang.no_transaksi}</div>
             <div>Produk: {data.get_produk.nama_produk}</div>
+            <div>Estimasi Sampai: Sebelum {moment(data.est_sampai).format('DD MMMM, YYYY')} <b>(TENTATIF)</b></div>
             {/* <div><strong>SWIFT code: 99 8888 7777 6666 5555</strong></div> */}
           </CCol>
         </CRow>

@@ -42,6 +42,7 @@ const Header = props => {
                       <CDropdownItem to="/ListHargaPengemasan" > Biaya Pengemasan </CDropdownItem>
                       <CDropdownItem to="/ListHargaCabaiPetani" > Harga Cabai Petani </CDropdownItem>
                       <CDropdownItem to="/ListLamaPenyimpanan" > Lama Penyimpanan Gudang </CDropdownItem>
+                      <CDropdownItem to="/MinimalPembelian" > Minimal Pembelian</CDropdownItem>
                     </CDropdownMenu>
                   </CDropdown>
                   <CNavLink to="/ListPetani">Petani</CNavLink>
@@ -86,6 +87,7 @@ const Header = props => {
             } else if(userName && userRole === 'konsumen') {
               return (
                 <CNavbarNav>
+                  <CNavLink to="/Dashboard">Dashboard</CNavLink>
                   <CNavLink to="/Market">Market</CNavLink>
                   <CNavLink to="/ProfilKonsumen">Profil</CNavLink>
                   <CDropdown inNav>

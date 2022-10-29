@@ -156,7 +156,7 @@ export default class ListTransaksi extends Component {
                 await UserService.pushQRCodeImageTransaksi(dataTransaksi.id, formDataQR).then(async (response) => {
                     console.log('cek hasil update qr', response);
             
-                    var json = JSON.stringify(response.data);
+                    var json = JSON.stringify(response.data.transaksi);
             
                     console.log('cek ini mal', json);
                     console.log('cek sol', AddTransaksi);

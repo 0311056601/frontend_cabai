@@ -26,6 +26,8 @@ import CIcon from '@coreui/icons-react'
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
 export default class DashboardGapoktan extends Component {
   constructor(props) {
     super(props);
@@ -36,39 +38,14 @@ export default class DashboardGapoktan extends Component {
     };
   }
 
+  // cart donat
   getChart = () => {
-
     const data = this.props.DashboardData
 
     let chart = am4core.create("chartdivGapoktan", am4charts.PieChart);
 
     // chart.data = this.state.DChart;
     chart.data = data.DChart;
-    // chart.data = [{
-    //   "kualitas": "Economic Development",
-    //   "jumlah": 33.4,
-    //   // "color": am4core.color("#b74312")
-    // }, {
-    //   "kualitas": "Health",
-    //   "jumlah": 17.9,
-    //   // "color": am4core.color("#b76f12")
-    // }, {
-    //   "kualitas": "Education",
-    //   "jumlah": 14.8,
-    //   // "color": am4core.color("#b7ac12")
-    // }, {
-    //   "kualitas": "Social",
-    //   "jumlah": 15,
-    //   // "color": am4core.color("#96b712")
-    // }, {
-    //   "kualitas": "Humanitarian",
-    //   "jumlah": 4.8,
-    //   // "color": am4core.color("#57b712")
-    // }, {
-    //   "kualitas": "Operational and Fundraising",
-    //   "jumlah": 14.1,
-    //   // "color": am4core.color("#12b728")
-    // }];
 
     // Add and configure Series
     let pieSeries = chart.series.push(new am4charts.PieSeries());
@@ -88,8 +65,151 @@ export default class DashboardGapoktan extends Component {
 
   }
 
+  // end chart donat
+
+
+  // bar chart
+  getChartBar = () => {
+
+    const data = this.props.DashboardData
+
+    /* Chart code */
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    let chartBar = am4core.create('chartdivBar', am4charts.XYChart)
+    chartBar.colors.step = 2;
+
+    chartBar.legend = new am4charts.Legend()
+    chartBar.legend.position = 'top'
+    chartBar.legend.paddingBottom = 20
+    chartBar.legend.labels.template.maxWidth = 95
+
+    // chartBar.cursor = new am4charts.XYCursor();
+    chartBar.scrollbarX = new am4core.Scrollbar();
+    chartBar.scrollbarY = new am4core.Scrollbar();
+
+    let xAxisBar = chartBar.xAxes.push(new am4charts.CategoryAxis())
+
+    xAxisBar.dataFields.category = 'date'
+    
+    xAxisBar.renderer.cellStartLocation = 0.1
+    xAxisBar.renderer.cellEndLocation = 0.9
+    xAxisBar.renderer.grid.template.location = 0;
+
+    let yAxisBar = chartBar.yAxes.push(new am4charts.ValueAxis());
+    yAxisBar.min = 0;
+
+    function createSeriesBar(value, name) {
+      let seriesBar = chartBar.series.push(new am4charts.ColumnSeries())
+      seriesBar.dataFields.valueY = value
+      seriesBar.dataFields.valueY.fontsize("2px");
+      seriesBar.dataFields.categoryX = 'date'
+      seriesBar.name = name
+
+      seriesBar.columns.template.tooltipText = "[#ffffff font-size: 15px;][/]{name} :[#ffffff font-size: 18px]{valueY} Kg[/]";
+      seriesBar.tooltip.label.textAlign = "middle";
+
+      let bullet = seriesBar.bullets.push(new am4charts.LabelBullet())
+      bullet.interactionsEnabled = false
+      bullet.dy = 31;
+      bullet.label.text = '{valueY}'
+      bullet.label.fill = am4core.color('#ffffff')
+
+      return seriesBar;
+    }
+
+    chartBar.data = data.DChartBar;
+    // chartBar.data = [{
+    //     "date": "Januari",
+    //     "k1": 21,
+    //     "k2": 25,
+    //     "super": 16
+    //   }, {
+    //     "date": "February",
+    //     "k1": 24,
+    //     "k2": 33,
+    //     "super": 14
+    //   }, {
+    //     "date": "Maret",
+    //     "k1": 21,
+    //     "k2": 27,
+    //     "super": 11
+    //   }];
+
+    createSeriesBar('super', 'Kelas Super');
+    createSeriesBar('k1', 'Kelas 1');
+    createSeriesBar('k2', 'Kelas 2');
+
+
+  }
+
+
+  getChartBarOut = () => {
+
+    const data = this.props.DashboardData
+
+    console.log('cek ini mal', data);
+
+    /* Chart code */
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    let chartBarOut = am4core.create('chartdivBarOut', am4charts.XYChart)
+    chartBarOut.colors.step = 2;
+
+    chartBarOut.legend = new am4charts.Legend()
+    chartBarOut.legend.position = 'top'
+    chartBarOut.legend.paddingBottom = 20
+    chartBarOut.legend.labels.template.maxWidth = 95
+
+    // chartBarOut.cursor = new am4charts.XYCursor();
+    chartBarOut.scrollbarX = new am4core.Scrollbar();
+    chartBarOut.scrollbarY = new am4core.Scrollbar();
+
+    let xAxisBarOut = chartBarOut.xAxes.push(new am4charts.CategoryAxis())
+    xAxisBarOut.dataFields.category = 'date'
+    xAxisBarOut.renderer.cellStartLocation = 0.1
+    xAxisBarOut.renderer.cellEndLocation = 0.9
+    xAxisBarOut.renderer.grid.template.location = 0;
+
+    let yAxisBar = chartBarOut.yAxes.push(new am4charts.ValueAxis());
+    yAxisBar.min = 0;
+
+    function createSeriesBarOut(value, name) {
+      let seriesBarOut = chartBarOut.series.push(new am4charts.ColumnSeries())
+      seriesBarOut.dataFields.valueY = value
+      seriesBarOut.dataFields.valueY.fontsize("2px");
+      seriesBarOut.dataFields.categoryX = 'date'
+      seriesBarOut.name = name
+
+      seriesBarOut.columns.template.tooltipText = "[#ffffff font-size: 15px;][/]{name} :[#ffffff font-size: 18px]{valueY} Kg[/]";
+      seriesBarOut.tooltip.label.textAlign = "middle";
+
+      let bulletOut = seriesBarOut.bullets.push(new am4charts.LabelBullet())
+      bulletOut.interactionsEnabled = false
+      bulletOut.dy = 31;
+      bulletOut.label.text = '{valueY}'
+      bulletOut.label.fill = am4core.color('#ffffff')
+
+      return seriesBarOut;
+    }
+
+    chartBarOut.data = data.DChartBarOut;
+
+    createSeriesBarOut('super', 'Kelas Super');
+    createSeriesBarOut('k1', 'Kelas 1');
+    createSeriesBarOut('k2', 'Kelas 2');
+
+  }
+
+
   componentDidMount() {
     this.getChart();
+    this.getChartBar();
+    this.getChartBarOut();
   }
 
   
@@ -139,7 +259,9 @@ export default class DashboardGapoktan extends Component {
                       header={data.DSaldo ? `Rp. ${parseInt(data.DSaldo.total_saldo).toLocaleString('en')}` : `Rp. -0,00` }
                       text="Total Saldo"
                     >
-                      <p style={{height:"70px"}}></p>
+                      <p style={{height:"70px"}}>
+                        <CButton to="/DetailSaldo" color="danger">Detail</CButton>
+                      </p>
                     </CWidgetDropdown>
                   </CCol>
 
@@ -154,10 +276,22 @@ export default class DashboardGapoktan extends Component {
                   </CCol> */}
                 </CRow>
 
+
+                <CRow>
+                  <CCol xs={12} md={6} lg={6} style={{ margin: "auto" }}>
+                    <hr></hr>
+                    <p><h5>Data Cabai Masuk Gudang</h5></p>
+                    <div id="chartdivBar"></div>
+                  </CCol>
+                  <CCol xs={12} md={6} lg={6} style={{ margin: "auto" }}>
+                    <hr></hr>
+                    <p><h5>Data Cabai Keluar Gudang</h5></p>
+                    <div id="chartdivBarOut"></div>
+                  </CCol>
+                </CRow>
                 <hr></hr>
-                <p><h5>Data Cabai Digudang</h5></p>
+                <p><h5>Data Cabai Digudang Saat Ini</h5></p>
                 <div id="chartdivGapoktan"></div>
-                
               </CCardBody>
             </CCard>
           </div>

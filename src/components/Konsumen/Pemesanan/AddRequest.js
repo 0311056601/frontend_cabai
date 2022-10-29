@@ -63,25 +63,27 @@ const AddRequest = () => {
 
             // insert data ke mysel
             UserService.SimpanRequestCabai(formData).then(
-            async (response) => {
-                
-                if(response.message) {
+                async (response) => {
+                    
+                    if(response.data.message) {
 
-                    alert(response.message);
+                        await alert(response.data.message);
 
-                } else {
+                    } else {
 
-                    await alert('Data berhasil disimpan');
+                        console.log('cek response', response);
 
-                    await setRedirect(true);
+                        await alert('Data berhasil disimpan');
+
+                        await setRedirect(true);
+                    }
+
+                },
+                (error) => {
+                    console.log(error);
+                    setLoading(false);
+                    alert(`${error.message}`);
                 }
-
-            },
-            (error) => {
-                console.log(error);
-                setLoading(false);
-                alert(`${error.message}`);
-            }
             );
         } catch (err) {
             console.log(err);

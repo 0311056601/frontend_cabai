@@ -8,7 +8,22 @@ body {
     height: 500px;
   }
 
+  #chartdivBar {
+    width: 100%;
+    height: 500px;
+  }
+
+  #chartdivBarOut {
+    width: 100%;
+    height: 500px;
+  }
+
   #chartdivPetani {
+    width: 100%;
+    height: 500px;
+  }
+
+  #chartdivExternal {
     width: 100%;
     height: 500px;
   }
