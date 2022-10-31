@@ -33,6 +33,7 @@ export default class Market extends Component {
       halaman: 'gapoktan',
     };
   }
+  
 
   componentDidMount() {
         UserService.getMarketGapoktan().then(

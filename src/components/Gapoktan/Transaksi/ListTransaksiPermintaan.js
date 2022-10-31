@@ -6,6 +6,7 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
+  CFormGroup,
   CDataTable,
   CRow,
   CButton,
@@ -25,6 +26,8 @@ import Web3 from "web3";
 import Web3Modal from "web3modal";
 import { ethers } from 'ethers';
 import { AddTransaksiRequest } from "../../../abi/request";
+import DatePicker from "react-datepicker";
+import "../../react-datepicker.css";
 
 require("dotenv").config();
 
@@ -45,6 +48,8 @@ export default class ListTransaksiPermintaan extends Component {
             content: [],
             qr: "test",
             modal: false,
+            estimasi: null,
+            modalKirim: false,
             loading: false,
             dataId: '',
             dataTransaksi: '',
@@ -71,11 +76,21 @@ export default class ListTransaksiPermintaan extends Component {
         );
     }
 
+    getDateEstimasi = async (date) => {
+
+        await this.setState({
+            estimasi: date,
+        })
+
+        await console.log('cek estimasi', moment(this.state.estimasi).format('DD-MM-YYYY'));
+        
+    }
+
     handleKonfirmasi = async (data) => {
 
         console.log('cek data', data);
 
-        await UserService.updateTransaksiRequest(data.id).then( async (response) => {
+        await UserService.updateTransaksiRequest(data.id, this.state.estimasi ? moment(this.state.estimasi).format('YYYY-MM-DD') : null).then( async (response) => {
             
             if(response.data.message) {
 
@@ -122,6 +137,11 @@ export default class ListTransaksiPermintaan extends Component {
         }
         )
 
+        this.setState({
+            modalKirim: false,
+            modal: false,
+        });
+
     }
 
     handleChange = (value) => {
@@ -140,6 +160,19 @@ export default class ListTransaksiPermintaan extends Component {
     
         this.setState({
           modal: !this.state.modal,
+        })
+    }
+
+    setModalKirim = async (data) => {
+        if(data) {
+            this.setState({
+                dataTransaksi: data,
+                dataId: data.id,
+            })
+        }
+    
+        this.setState({
+          modalKirim: !this.state.modal,
         })
     }
 
@@ -411,7 +444,8 @@ export default class ListTransaksiPermintaan extends Component {
                                                                     return(
                                                                         <>
                                                                             <td style={{ margin:"auto", textAlign:"center"}}>
-                                                                                <CButton size="sm" color="danger" onClick={() => this.handleKonfirmasi(item)} >Kirim Cabai </CButton>
+                                                                                {/* <CButton size="sm" color="danger" onClick={() => this.handleKonfirmasi(item)} >Kirim Cabai </CButton> */}
+                                                                                <CButton size="sm" color="danger" onClick={() => this.setModalKirim(item)} >Kirim Cabai </CButton>
                                                                             </td>
                                                                         </>
                                                                     )
@@ -445,6 +479,7 @@ export default class ListTransaksiPermintaan extends Component {
                             </div>
                         </main>
 
+                        {/* modal transaksi blockchain */}
                         <CModal 
                             show={this.state.modal} 
                             onClick={this.setModal}
@@ -477,6 +512,39 @@ export default class ListTransaksiPermintaan extends Component {
                                     Generate QRCode
                                 </CButton>{' '}
                                 <CButton color="secondary" onClick={this.setModal}>
+                                    Tutup
+                                </CButton>
+                            </CModalFooter>
+                        </CModal>
+
+                        {/* modal kirim cabai */}
+                        <CModal 
+                            show={this.state.modalKirim}
+                            color="warning"
+                        >
+                            <CModalHeader closeButton>
+                                <CModalTitle>Kirim Produk</CModalTitle>
+                            </CModalHeader>
+                            <CModalBody>
+                                <strong>Produk akan dikirim ke alamat pembeli,</strong> tentukan estimasi produk sampai ke alamat pembeli
+                                <CFormGroup>
+                                    <DatePicker
+                                        selected={this.state.estimasi}
+                                        className="textInput cabai"
+                                        onChange={(date) => this.getDateEstimasi(date)}
+                                        minDate={new Date()}
+                                        dateFormat="dd/MMM/yyyy"
+                                        name="estimasi_sampai"
+                                        required={true}
+                                        placeholderText="tentukan estimasi tanggal sampai..."
+                                    />
+                                </CFormGroup>
+                            </CModalBody>
+                            <CModalFooter>
+                                <CButton color="danger" style={{color:"white"}} onClick={() => this.handleKonfirmasi(this.state.dataTransaksi)}> {' '}
+                                    Kirim Produk
+                                </CButton>{' '}
+                                <CButton color="secondary" onClick={this.setModalKirim}>
                                     Tutup
                                 </CButton>
                             </CModalFooter>

@@ -27,6 +27,7 @@ import AddLahan from "./components/Petani/Lahan/AddLahan";
 import EditLahan from "./components/Petani/Lahan/EditLahan";
 import ProdukPetani from "./components/Petani/Produk/ProdukPetani";
 import AddProdukCabai from "./components/Petani/Produk/AddProdukCabai";
+import TracePanen from "./components/Petani/Produk/TracePanen";
 // end akses petani
 
 // akses gapoktan
@@ -51,6 +52,7 @@ import GapoktanMintaData from "./components/Gapoktan/MintaData/GapoktanMintaData
 import ListLamaPenyimpanan from "./components/Gapoktan/Master/ListLamaPenyimpanan";
 import GudangExpired from "./components/Gapoktan/Gudang/GudangExpired";
 import AddExpired from "./components/Gapoktan/Master/AddExpired";
+import MinimalPembelian from "./components/Gapoktan/Master/MinimalPembelian";
 // end halaman
 
 // akses konsumen
@@ -80,6 +82,10 @@ import GetQRExpired from "./components/QR/GetQRExpired";
 import GetQRTransaksi from "./components/QR/GetQRTransaksi";
 import GetQRTransaksiRequest from "./components/QR/GetQRTransaksiRequest";
 // end halamana qrcode
+
+// halaman lain
+import DetailSaldo from "./components/Detail/DetailSaldo";
+
 
 class App extends Component {
   constructor(props) {
@@ -172,6 +178,7 @@ class App extends Component {
           <Route path="/SemuaPemberitahuan" exact component={NotifikasiAll} />
           <Route path="/Pemberitahuan/:notifId" exact component={NotifikasiDetail} />
           <Route path="/RequestData" exact component={RequestData} />
+          <Route path="/DetailSaldo" exact component={DetailSaldo} />
 
           {/* login petani */}
           {/* <Route path="/DashboardPetani" exact component={DashboardPetani} /> */}
@@ -181,6 +188,7 @@ class App extends Component {
           <Route path="/EditLahan/:lahanId" exact component={EditLahan} />
           <Route path="/ProdukPetani" exact component={ProdukPetani} />
           <Route path="/AddProdukCabai" exact component={AddProdukCabai} />
+          <Route path="/TracePanen/:ProdukPetaniId" exact component={TracePanen} />
           {/* end login petani */}
 
           {/* login gapoktan */}
@@ -205,6 +213,7 @@ class App extends Component {
           <Route path="/ListLamaPenyimpanan" exact component={ListLamaPenyimpanan} />
           <Route path="/GudangExpired" exact component={GudangExpired} />
           <Route path="/AddExpired" exact component={AddExpired} />
+          <Route path="/MinimalPembelian" exact component={MinimalPembelian} />
           {/* end login gapoktan */}
 
           {/* login konsumen */}

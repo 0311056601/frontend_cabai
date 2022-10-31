@@ -11,7 +11,6 @@ import {
   CButton
 } from "@coreui/react";
 import UserService from '../../../services/user.service';
-import showResults from '../../showResults/showResults';
 
 export default class ListLahan extends Component {
   constructor(props) {
@@ -48,7 +47,7 @@ export default class ListLahan extends Component {
     await UserService.HapusLahan(item.id).then(
       async (response) => {
 
-        showResults("Data berhasil dihapus");
+        alert("Data berhasil dihapus");
         
         await UserService.ListLahan().then(
             (response) => {

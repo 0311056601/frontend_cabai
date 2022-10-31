@@ -181,8 +181,8 @@ class UserService {
         });
     }
 
-    UpdateKirimProduk(transaksiId) {
-        return axios.get(API_URL + "UpdateKirimProduk/"+ transaksiId, {
+    UpdateKirimProduk(transaksiId, estimasi) {
+        return axios.get(API_URL + "UpdateKirimProduk/"+ transaksiId +'/'+estimasi, {
             headers: authHeader(),
         });
     }
@@ -295,8 +295,8 @@ class UserService {
         });
     }
 
-    updateTransaksiRequest(requestId) {
-        return axios.get(API_URL + "updateTransaksiRequest/"+requestId, {
+    updateTransaksiRequest(requestId, estimasi) {
+        return axios.get(API_URL + "updateTransaksiRequest/"+requestId+'/'+ estimasi, {
             headers: authHeader(),
         });
     }
@@ -409,6 +409,30 @@ class UserService {
         });
     }
 
+    getDataMinimal() {
+        return axios.get(API_URL + "getDataMinimal", { 
+            headers: authHeader() 
+        });
+    }
+
+    detailSaldo() {
+        return axios.get(API_URL + "detailSaldo", { 
+            headers: authHeader() 
+        });
+    }
+
+    getDashboardPetaniHome() {
+        return axios.get(API_URL + "getDashboardPetaniHome", { 
+            headers: authHeader() 
+        });
+    }
+
+    getTracePanen(produkPanenId) {
+        return axios.get(API_URL + "getTracePanen/"+produkPanenId, { 
+            headers: authHeader() 
+        });
+    }
+
 
 
     // api post 
@@ -499,6 +523,12 @@ class UserService {
     gudangProcess(raw) {
         return axios.post(API_URL + "gudangProcess", raw, { 
             headers: authHeader() 
+        });
+    }
+
+    addMinimalPembelian(raw) {
+        return axios.post(API_URL + "addMinimalPembelian", raw, { 
+            headers: authHeader()
         });
     }
 

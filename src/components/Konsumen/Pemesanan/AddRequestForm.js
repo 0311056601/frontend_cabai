@@ -27,6 +27,7 @@ const AddRequestForm = (props) => {
     const [gapoktan, setGapoktan] = useState([])
     const [kualitas, setKualitas] = useState(null)
     const [packaging, setPackaging] = useState(null)
+    const [alamatG, setAlamatG] = useState(null)
     const [hd, setHd] = useState(null)
     const [k, setK] = useState(null)
     const [p, setP] = useState(null)
@@ -37,9 +38,16 @@ const AddRequestForm = (props) => {
 
     const ListGapoktan = props.Gapoktan;
 
+
     const handleGapoktanChange = async (e) => {
 
+        setAlamatG(null);
         let gapoktan = e.target.value;
+        let alamat = e.target.options[e.target.selectedIndex].dataset.gapoktan;
+
+        if(alamat) {
+            setAlamatG(alamat);
+        }
 
         await UserService.getGapoktanHarga(gapoktan).then( async (response) => {
             console.log('cek ini', response.data);
@@ -141,7 +149,7 @@ const AddRequestForm = (props) => {
                                                 {
                                                     ListGapoktan.map(function(v, i) {
                                                         return(
-                                                            <option value={v.id} key={i} > {`${v.username} - ${v.email}`} </option>
+                                                            <option data-gapoktan={v.get_profile ? v.get_profile.alamat : 'Gapoktan belum melengkapi alamat'} value={v.id} key={i} > {`${v.username} - ${v.email}`} </option>
                                                         )
                                                     })
                                                 }
@@ -187,7 +195,7 @@ const AddRequestForm = (props) => {
                                     (
                                         <>
                                             <CRow>
-                                                <CCol xs={6} md={6} lg={6}>
+                                                {/* <CCol xs={6} md={6} lg={6}>
                                                     <h4>Perhitungan Harga Produk</h4>
                                                     <hr></hr>
                                                     <CRow>
@@ -258,12 +266,13 @@ const AddRequestForm = (props) => {
                                                             </CFormGroup>
                                                         </CCol>
                                                     </CRow>
-                                                </CCol>
+                                                </CCol> */}
 
                                                 <CCol xs={6} md={6} lg={6}>
-                                                    <h4>Perkiraan Harga</h4>
+                                                    <h4>Transaksi</h4>
+                                                    {/* <h4>Perkiraan Harga</h4> */}
                                                     <hr></hr>
-                                                    <CRow>
+                                                    {/* <CRow>
                                                         <CCol xs={4} md={4} lg={4}>
                                                             <CFormGroup>
                                                                 <CLabel htmlFor="nf-namaJenis"><strong>Harga Jual</strong></CLabel>
@@ -311,6 +320,23 @@ const AddRequestForm = (props) => {
                                                         <CCol xs={4} md={4} lg={4}>
                                                             <CFormGroup>
                                                                 <CLabel htmlFor="nf-namaJenis"><strong style={{color:"red"}}>Belum Terhitung</strong></CLabel>
+                                                            </CFormGroup>
+                                                        </CCol>
+                                                    </CRow> */}
+                                                    <CRow>
+                                                        <CCol xs={4} md={4} lg={4}>
+                                                            <CFormGroup>
+                                                                <CLabel htmlFor="nf-namaJenis"><strong>Alamat Gapoktan</strong></CLabel>
+                                                            </CFormGroup>
+                                                        </CCol>
+                                                        <CCol xs={1} md={1} lg={1}>
+                                                            <CFormGroup>
+                                                                <CLabel htmlFor="nf-namaJenis"><strong> : </strong></CLabel>
+                                                            </CFormGroup>
+                                                        </CCol>
+                                                        <CCol xs={4} md={4} lg={4}>
+                                                            <CFormGroup>
+                                                                <CLabel htmlFor="nf-namaJenis">{alamatG ? alamatG : ''}</CLabel>
                                                             </CFormGroup>
                                                         </CCol>
                                                     </CRow>

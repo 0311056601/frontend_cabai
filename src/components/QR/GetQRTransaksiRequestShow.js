@@ -85,6 +85,9 @@ export default class GetQRTransaksiRequestShow extends Component {
                                 <p>
                                     <strong>Tanggal Transaksi:</strong> {moment(this.state.transaksi.created_at).format('DD - MMMM - YYYY H:s')}
                                 </p>
+                                <p>
+                                    <strong>Estimasi Sampai:</strong> {moment(this.state.transaksi.est_sampai).format('DD - MMMM - YYYY')}
+                                </p>
                                 {
                                     this.state.detailCabai && this.state.detailCabai.map((value, index) => {
                                         return(
@@ -127,7 +130,7 @@ export default class GetQRTransaksiRequestShow extends Component {
                             <h1
                                 style={{
                                 transform: "rotate(180deg)",
-                                transformOrigin: "20% 100%",
+                                transformOrigin: "20% 50%",
                                 writingMode: "vertical-lr",
                                 color: "#f5ff49",
                                 textAlign: "center",
@@ -195,7 +198,7 @@ export default class GetQRTransaksiRequestShow extends Component {
                             <h1
                                 style={{
                                 transform: "rotate(180deg)",
-                                transformOrigin: "20% 100%",
+                                transformOrigin: "20% 50%",
                                 writingMode: "vertical-lr",
                                 color: "#f5ff49",
                                 textAlign: "center",

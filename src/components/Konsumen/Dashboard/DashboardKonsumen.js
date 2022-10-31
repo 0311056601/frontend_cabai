@@ -26,7 +26,7 @@ import CIcon from '@coreui/icons-react'
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 
-export default class DashboardPetani extends Component {
+export default class DashboardKonsumen extends Component {
   constructor(props) {
     super(props);
 
@@ -43,7 +43,7 @@ export default class DashboardPetani extends Component {
     let chart = am4core.create("chartdivGapoktan", am4charts.PieChart);
 
     // chart.data = this.state.DChart;
-    chart.data = data.DChart;
+    chart.data = data.chart;
     // chart.data = [{
     //   "kualitas": "Economic Development",
     //   "jumlah": 33.4,
@@ -73,11 +73,11 @@ export default class DashboardPetani extends Component {
     // Add and configure Series
     let pieSeries = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "jumlah";
-    pieSeries.dataFields.category = "kualitas";
-    // pieSeries.slices.template.propertyFields.fill = "color";
+    pieSeries.dataFields.category = "gapoktan";
+    pieSeries.slices.template.propertyFields.fill = "color";
 
     // Let's cut a hole in our Pie chart the size of 40% the radius
-    chart.innerRadius = am4core.percent(40);
+    // chart.innerRadius = am4core.percent(40);
 
     // Set up fills
     pieSeries.slices.template.fillOpacity = 1;
@@ -116,8 +116,8 @@ export default class DashboardPetani extends Component {
                   <CCol sm="4" lg="4">
                     <CWidgetDropdown
                       color="gradient-primary"
-                      header={`${data.DLahan} Lahan`}
-                      text="Jumlah Lahan Petani"
+                      header={`${data.transaksiMarketTotal} Transaksi`}
+                      text="Transaksi Melalui Market"
                     >
                       <p style={{height:"70px"}}></p>
                     </CWidgetDropdown>
@@ -126,9 +126,9 @@ export default class DashboardPetani extends Component {
                   <CCol sm="4" lg="4">
                     <CWidgetDropdown
                       color="gradient-info"
-                      header={`${data.DPanen}X Panen`}
+                      header={`${data.transaksiRequestTotal} Permintaan`}
                       // header={`${data.DTransaksi.length + data.DTransaksiRequest.length} Transaksi`}
-                      text="Jumlah Panen Petani"
+                      text="Transaksi Permintaan"
                     >
                       <p style={{height:"70px"}}></p>
                     </CWidgetDropdown>
@@ -137,13 +137,11 @@ export default class DashboardPetani extends Component {
                   <CCol sm="4" lg="4">
                     <CWidgetDropdown
                       color="gradient-warning"
-                      header={data.DSaldo ? `Rp. ${parseInt(data.DSaldo.total_saldo).toLocaleString('en')}` : `Rp. -0,00` }
-                      text="Total Saldo"
+                      header={`${data.keranjang.length} data di keranjang`}
+                      text="Keranjang"
                     >
                       {/* <p style={{height:"70px"}}></p> */}
-                      <p style={{height:"70px"}}>
-                        <CButton to="/DetailSaldo" color="danger">Detail</CButton>
-                      </p>
+                      <p style={{height:"70px"}}></p>
                     </CWidgetDropdown>
                   </CCol>
 
@@ -159,7 +157,7 @@ export default class DashboardPetani extends Component {
                 </CRow>
 
                 <hr></hr>
-                <p><h5>Jumlah Hasil Panen</h5></p>
+                <p><h5>Transaksi</h5></p>
                 <div id="chartdivGapoktan"></div>
                 
               </CCardBody>

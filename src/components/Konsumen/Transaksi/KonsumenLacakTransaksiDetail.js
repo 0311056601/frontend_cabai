@@ -18,6 +18,7 @@ import {
   CListGroupItem,
 } from "@coreui/react";
 import { Redirect } from "react-router-dom";
+import moment from 'moment';
 
 export default class LacakProduk extends Component {
     constructor(props) {
@@ -26,6 +27,8 @@ export default class LacakProduk extends Component {
         this.state = {
             data: this.props.DATA,
         };
+
+        console.log('cek data', this.props)
     }
 
 
@@ -46,9 +49,21 @@ export default class LacakProduk extends Component {
                     <br></br>
 
                     <CFormGroup>
-                        <h4><strong>Status Transaksi :</strong> {this.state.data.transaksi.status_transaksi} </h4> &nbsp;
-                        <h4><strong>Proses Transaksi :</strong> {this.state.data.transaksi.status_transaksi === 'Barang telah diterima' ? "Completed" : this.state.data.transaksi.progress_transaksi+"%"} </h4> &nbsp;&nbsp;
-
+                        <CRow>
+                            <CCol className="mb-6">
+                                <h4><strong>Status Transaksi :</strong> {this.state.data.transaksi.status_transaksi} </h4> &nbsp;
+                            </CCol>
+                            <CCol className="mb-6">
+                                <h4><strong>Proses Transaksi :</strong> {this.state.data.transaksi.status_transaksi === 'Barang telah diterima' ? "Completed" : this.state.data.transaksi.progress_transaksi+"%"} </h4>
+                            </CCol>
+                        </CRow>
+                        <CRow>
+                            <CCol className="mb-6">
+                                <h4><strong>Estimasi Sampai :</strong> {this.state.data.transaksi.est_sampai ? moment(this.state.data.transaksi.est_sampai).format('DD / MMM / YYYY') : "Belum Ditentukan"} </h4>
+                            </CCol>
+                        </CRow>
+                    </CFormGroup>
+                    <CFormGroup>
                             {(() => {
                                 if(this.state.data.transaksi.status_transaksi === 'Check Out') {
                                     return (

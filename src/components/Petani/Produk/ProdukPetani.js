@@ -143,7 +143,7 @@ export default class ProdukPetani extends Component {
         key: "dataControl",
         label: "Aksi",
         filter: false,
-        _style: { textAlign: "center", width: "20%" },
+        _style: { textAlign: "center", width: "30%" },
       },
     ];
 
@@ -219,6 +219,8 @@ export default class ProdukPetani extends Component {
                                               return (
                                                 <>
                                                   Data sudah dikirim ke gapoktan
+                                                  &nbsp; 
+                                                  <CButton size="sm" color="success" to={`/TracePanen/${item.id}`} >Check</CButton> 
                                                 </>
                                               )
                                             }
