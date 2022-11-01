@@ -138,7 +138,8 @@ const Header = props => {
                     <CDropdown inNav>
                       <CDropdownToggle color="primary">Masuk / Daftar</CDropdownToggle>
                       <CDropdownMenu>
-                      <CDropdownItem to="/Login">Masuk</CDropdownItem>
+                      {/* <CDropdownItem to="/Login">Masuk</CDropdownItem> */}
+                      <CDropdownItem href="/Login">Masuk</CDropdownItem>
                       <CDropdownItem to="/Daftar">Daftar Konsumen</CDropdownItem>
                       <CDropdownItem to="/DaftarGapoktan">Daftar Gapoktan</CDropdownItem>
                       </CDropdownMenu>

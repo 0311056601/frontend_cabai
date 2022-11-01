@@ -433,7 +433,11 @@ class UserService {
         });
     }
 
-
+    getDashboardLogin() {
+        return axios.get(API_URL + "getDashboardLogin", { 
+            headers: authHeader() 
+        });
+    }
 
     // api post 
     daftarAkunPetani(raw) {
