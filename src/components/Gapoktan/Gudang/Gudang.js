@@ -65,11 +65,19 @@ export default class Gudang extends Component {
     UserService.gapoktanGetDataGudang().then(
       (response) => {
         console.log('cek response get data', response);
-        this.setState({
-          content: response.data.gudang,
-          expDue: response.data.expired.expired,
-          exp: [],
-        });
+        if(response.data.expired) {
+          this.setState({
+            content: response.data.gudang,
+            expDue: response.data.expired.expired,
+            exp: [],
+          });
+        } else {
+          this.setState({
+            content: response.data.gudang,
+            expDue: 10, // jika gapoktan tidak setting expired maka otomatis expDue diset menjadi 10 hari
+            exp: [],
+          });
+        }
       },
       (error) => {
         this.setState({
