@@ -362,7 +362,7 @@ export default class ProdukPackaging extends Component {
                                     kualitas: (item) => {
                                       return (
                                         <td>
-                                          {item.get_detail[0].kualitas_cabai}
+                                          {item.get_detail[0] && item.get_detail[0].kualitas_cabai ? item.get_detail[0].kualitas_cabai : ''}
                                         </td>
                                       )
                                     },
