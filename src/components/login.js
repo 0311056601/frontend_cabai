@@ -243,7 +243,7 @@ class Login extends Component {
                   <div id="chartdivExternal"></div>
                 </CCard>
 
-                <CCard className="p-4">
+                <CCard className="p-4 col-md-4">
                   <CCardBody>
                     <h1>Masuk</h1>
                     <p className="text-muted">masuk dengan akunmu, jika belum memiliki akun, silahkan daftar terlebih dahulu</p>
