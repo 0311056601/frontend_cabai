@@ -41,7 +41,7 @@ export default class DashboardGapoktan extends Component {
   // chart summary
   getChartSummery = () => {
 
-    UserService.getDashboardLogin().then((response) => { 
+    UserService.getDashboardSummary().then((response) => { 
       /* Chart code */
       // Themes begin
       am4core.useTheme(am4themes_animated);
@@ -358,7 +358,7 @@ export default class DashboardGapoktan extends Component {
                   </CCol>
                   <CCol xs={12} md={6} lg={6} style={{ margin: "auto" }}>
                     <hr></hr>
-                    <p><h5>Data Summary Market dan Request</h5></p>
+                    <p><h5>Data Summary</h5></p>
                     <div id="chartdivSummary"></div>
                   </CCol>
                 </CRow>

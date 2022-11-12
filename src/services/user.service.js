@@ -337,6 +337,12 @@ class UserService {
         });
     }
 
+    getDashboardSummary() {
+        return axios.get(API_URL + "getDashboardSummaryGapoktan", {
+            headers: authHeader(),
+        });
+    }
+
     getDashboardPetani() {
         return axios.get(API_URL + "getDashboardPetani", {
             headers: authHeader(),
