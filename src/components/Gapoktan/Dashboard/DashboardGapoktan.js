@@ -38,6 +38,70 @@ export default class DashboardGapoktan extends Component {
     };
   }
 
+  // chart summary
+  getChartSummery = () => {
+
+    UserService.getDashboardLogin().then((response) => { 
+      /* Chart code */
+      // Themes begin
+      am4core.useTheme(am4themes_animated);
+      // Themes end
+
+      // Create chart instance
+      let chart = am4core.create("chartdivSummary", am4charts.XYChart);
+
+      // Export
+      chart.exporting.menu = new am4core.ExportMenu();
+
+      /* Create axes */
+      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+      categoryAxis.dataFields.category = "tanggal";
+      categoryAxis.renderer.minGridDistance = 30;
+
+      /* Create value axis */
+      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+      /* Create series */
+      let columnSeries = chart.series.push(new am4charts.ColumnSeries());
+      columnSeries.name = "produk";
+      columnSeries.dataFields.valueY = "produk";
+      columnSeries.dataFields.categoryX = "tanggal";
+
+      columnSeries.columns.template.tooltipText = "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]"
+      columnSeries.columns.template.propertyFields.fillOpacity = "fillOpacity";
+      columnSeries.columns.template.propertyFields.stroke = "stroke";
+      columnSeries.columns.template.propertyFields.strokeWidth = "strokeWidth";
+      columnSeries.columns.template.propertyFields.strokeDasharray = "columnDash";
+      columnSeries.tooltip.label.textAlign = "middle";
+
+      let lineSeries = chart.series.push(new am4charts.LineSeries());
+      lineSeries.name = "kebutuhan";
+      lineSeries.dataFields.valueY = "kebutuhan";
+      lineSeries.dataFields.categoryX = "tanggal";
+
+      lineSeries.stroke = am4core.color("#fdd400");
+      lineSeries.strokeWidth = 3;
+      lineSeries.propertyFields.strokeDasharray = "lineDash";
+      lineSeries.tooltip.label.textAlign = "middle";
+
+      let bullet = lineSeries.bullets.push(new am4charts.Bullet());
+      bullet.fill = am4core.color("#fdd400"); // tooltips grab fill from parent by default
+      bullet.tooltipText = "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]"
+      let circle = bullet.createChild(am4core.Circle);
+      circle.radius = 4;
+      circle.fill = am4core.color("#fff");
+      circle.strokeWidth = 3;
+
+      chart.data = response.data.data.sort((a, b) => (b.no > a.no) ? 1 : -1);
+
+      this.setState({
+        data: response.data.data,
+      });
+    });
+
+  }
+  // end chart summary
+
   // cart donat
   getChart = () => {
     const data = this.props.DashboardData
@@ -64,11 +128,9 @@ export default class DashboardGapoktan extends Component {
     hs.properties.fillOpacity = 0.5;
 
   }
-
   // end chart donat
 
-
-  // bar chart
+  // bar chart in
   getChartBar = () => {
 
     const data = this.props.DashboardData
@@ -141,11 +203,10 @@ export default class DashboardGapoktan extends Component {
     createSeriesBar('super', 'Kelas Super');
     createSeriesBar('k1', 'Kelas 1');
     createSeriesBar('k2', 'Kelas 2');
-
-
   }
+  // end chart bar in
 
-
+  // bar chart out
   getChartBarOut = () => {
 
     const data = this.props.DashboardData
@@ -204,15 +265,15 @@ export default class DashboardGapoktan extends Component {
     createSeriesBarOut('k2', 'Kelas 2');
 
   }
-
+  // end chart bar out
 
   componentDidMount() {
     this.getChart();
     this.getChartBar();
     this.getChartBarOut();
+    this.getChartSummery();
   }
 
-  
   render() {
 
     const data = this.props.DashboardData
@@ -289,9 +350,18 @@ export default class DashboardGapoktan extends Component {
                     <div id="chartdivBarOut"></div>
                   </CCol>
                 </CRow>
-                <hr></hr>
-                <p><h5>Data Cabai Digudang Saat Ini</h5></p>
-                <div id="chartdivGapoktan"></div>
+                <CRow>
+                  <CCol xs={12} md={6} lg={6} style={{ margin: "auto" }}>
+                    <hr></hr>
+                    <p><h5>Data Cabai Digudang Saat Ini</h5></p>
+                    <div id="chartdivGapoktan"></div>
+                  </CCol>
+                  <CCol xs={12} md={6} lg={6} style={{ margin: "auto" }}>
+                    <hr></hr>
+                    <p><h5>Data Summary Market dan Request</h5></p>
+                    <div id="chartdivSummary"></div>
+                  </CCol>
+                </CRow>
               </CCardBody>
             </CCard>
           </div>
