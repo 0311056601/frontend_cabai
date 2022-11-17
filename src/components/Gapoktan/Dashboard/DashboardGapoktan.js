@@ -75,8 +75,8 @@ export default class DashboardGapoktan extends Component {
       columnSeries.tooltip.label.textAlign = "middle";
 
       let lineSeries = chart.series.push(new am4charts.LineSeries());
-      lineSeries.name = "kebutuhan";
-      lineSeries.dataFields.valueY = "kebutuhan";
+      lineSeries.name = "transaksi";
+      lineSeries.dataFields.valueY = "transaksi";
       lineSeries.dataFields.categoryX = "tanggal";
 
       lineSeries.stroke = am4core.color("#fdd400");
@@ -93,6 +93,8 @@ export default class DashboardGapoktan extends Component {
       circle.strokeWidth = 3;
 
       chart.data = response.data.data.sort((a, b) => (b.no > a.no) ? 1 : -1);
+
+      console.log('cek data summary', response.data.data);
 
       this.setState({
         data: response.data.data,
