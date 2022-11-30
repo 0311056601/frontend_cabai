@@ -140,6 +140,7 @@ export default class ListLahan extends Component {
                                     return (
                                       <>
                                         <td style={{ margin:"auto", textAlign:"center"}}>
+                                          <CButton size="sm" color="info" to={`/PreviewLahan/${item.id}`} >Preview</CButton> &nbsp;
                                           <CButton size="sm" color="success" to={`/EditLahan/${item.id}`} >Ubah</CButton> &nbsp;
                                           <CButton size="sm" color="warning" style={{color:"white"}} onClick={() => this.HapusLahan(item)} >Hapus</CButton> &nbsp;
                                         </td>

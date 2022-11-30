@@ -23,6 +23,7 @@ import NotifikasiDetail from "./components/header/NotifikasiDetail";
 // import DashboardPetani from "./components/Petani/Dashboard/DashboardPetani";
 import ProfilePetani from "./components/Petani/Profile/ProfilePetani";
 import ListLahan from "./components/Petani/Lahan/ListLahan";
+import PreviewLahan from "./components/Petani/Lahan/PreviewLahan";
 import AddLahan from "./components/Petani/Lahan/AddLahan";
 import EditLahan from "./components/Petani/Lahan/EditLahan";
 import ProdukPetani from "./components/Petani/Produk/ProdukPetani";
@@ -184,6 +185,7 @@ class App extends Component {
           {/* <Route path="/DashboardPetani" exact component={DashboardPetani} /> */}
           <Route path="/ProfilePetani" exact component={ProfilePetani} />
           <Route path="/ListLahan" exact component={ListLahan} />
+          <Route path="/PreviewLahan/:lahanId" exact component={PreviewLahan} />
           <Route path="/AddLahan" exact component={AddLahan} />
           <Route path="/EditLahan/:lahanId" exact component={EditLahan} />
           <Route path="/ProdukPetani" exact component={ProdukPetani} />
