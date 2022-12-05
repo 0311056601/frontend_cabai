@@ -34,6 +34,7 @@ import TracePanen from "./components/Petani/Produk/TracePanen";
 // akses gapoktan
 // import DashboardGapoktan from "./components/Gapoktan/Dashboard/DashboardGapoktan";
 import DaftarAkunPetani from "./components/Gapoktan/Petani/DaftarAkunPetani";
+import LahanPetani from "./components/Gapoktan/Petani/LahanPetani";
 import ListPetani from "./components/Gapoktan/Petani/ListPetani";
 import ListHargaPengemasan from "./components/Gapoktan/Master/ListHargaPengemasan";
 import ListHargaCabaiPetani from "./components/Gapoktan/Master/ListHargaCabaiPetani";
@@ -196,6 +197,7 @@ class App extends Component {
           {/* login gapoktan */}
           {/* <Route path="/DashboardGapoktan" exact component={DashboardGapoktan} /> */}
           <Route path="/ListPetani" exact component={ListPetani} />
+          <Route path="/LahanPetani/:petaniId" exact component={LahanPetani} />
           <Route path="/ProfileGapoktan" exact component={ProfileGapoktan} />
           <Route path="/ListHargaPengemasan" exact component={ListHargaPengemasan} />
           <Route path="/ListHargaCabaiPetani" exact component={ListHargaCabaiPetani} />

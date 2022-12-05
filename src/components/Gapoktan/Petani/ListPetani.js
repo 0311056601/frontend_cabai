@@ -153,6 +153,7 @@ export default class ListPetani extends Component {
                                                     )
                                                   }
                                               })()}
+                                              <CButton size="sm" color="info" className="ml-1" to={`LahanPetani/${item.id}`} >Lihat Lahan</CButton>
                                               {/* <CButton size="sm" color="info" className="ml-1" to={`Detail-mitra-petani/${item.id}`} >Detail</CButton> */}
                                             </div>
                                           </td>

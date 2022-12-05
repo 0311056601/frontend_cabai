@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import "../../Cabai.css";
 import "../../CabaiMedia.css";
-import EditLahanForm from "./EditLahanForm";
 import UserService from '../../../services/user.service';
 import showResults from '../../showResults/showResults';
 import { css } from "@emotion/react";
@@ -32,7 +31,7 @@ import {
     InfoWindow
 } from 'react-google-maps';
 
-const EditLahan = () => {
+const PreviewLahan = () => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
 
   const { lahanId } = useParams();
@@ -113,8 +112,8 @@ const EditLahan = () => {
                                                                     </p>
                                                                 </CFormGroup>
                                                             </CCol>
-                                                        </CRow>
-                                                        <CRow>
+                                                        </CRow> 
+                                                        <CRow> 
                                                             <CCol xs={6} md={6} lg={6}>
                                                                 <CFormGroup>
                                                                     <p>
@@ -250,4 +249,4 @@ const EditLahan = () => {
     );
 
 };
-export default EditLahan;
+export default PreviewLahan;

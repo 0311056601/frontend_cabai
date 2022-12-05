@@ -21,6 +21,10 @@ class UserService {
         return axios.get(API_URL + "detail-user", { headers: authHeader() });
     }
 
+    listLahanWithPetaniId(petaniId) {
+        return axios.get(API_URL + "listLahanWithPetaniId/" + petaniId, { headers: authHeader() });
+    }
+
     ListLahan() {
         return axios.get(API_URL + "listLahan", { headers: authHeader() });
     }
