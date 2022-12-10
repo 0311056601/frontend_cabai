@@ -149,7 +149,7 @@ const AddRequestForm = (props) => {
                                                 {
                                                     ListGapoktan.map(function(v, i) {
                                                         return(
-                                                            <option data-gapoktan={v.get_profile ? v.get_profile.alamat : 'Gapoktan belum melengkapi alamat'} value={v.id} key={i} > {`${v.username} - ${v.email}`} </option>
+                                                            <option data-gapoktan={v.get_profile ? v.get_profile.alamat : 'Gapoktan belum melengkapi alamat'} value={v.id} key={i} > {`${v.username} - ${v.email} - ${v.get_profile.kota ? v.get_profile.kota : ''}`} </option>
                                                         )
                                                     })
                                                 }

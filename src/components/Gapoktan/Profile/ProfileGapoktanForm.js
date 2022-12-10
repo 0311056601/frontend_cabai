@@ -57,7 +57,6 @@ const ProfileGapoktanForm = (props) => {
                       name="nama"
                       component="input"
                       type="text"
-                      required={true}
                       placeholder={data.profile && data.profile.nama ? data.profile.nama : ''}
                     />
                   </CFormGroup>
@@ -76,14 +75,26 @@ const ProfileGapoktanForm = (props) => {
                 </CCol>
               </CRow>
               <CRow>
-                <CCol>
+                <CCol xs={6} md={6} lg={6} >
                   <CFormGroup>
                     <CLabel htmlFor="nf-namaJenis">Alamat</CLabel>
                     <Field
                       className="textAreaInput cabai"
                       name="alamat"
                       component="textarea"
-                      placeholder={data.profile && data.profile.alamat ? data.profile.alamat : ''}
+                      placeholder={data.profile && data.profile.alamat ? data.profile.alamat : 'Masukkan alamat gapoktan'}
+                    />
+                  </CFormGroup>
+                </CCol>
+                <CCol xs={6} md={6} lg={6} >
+                  <CFormGroup>
+                    <CLabel htmlFor="nf-namaJenis">Kota/Kabupaten</CLabel>
+                    <Field
+                      className="textInput cabai"
+                      name="kota"
+                      component="input"
+                      type="text"
+                      placeholder={data.profile && data.profile.kota ? data.profile.kota : 'Masukkan nama kota atau kabupaten gapoktan'}
                     />
                   </CFormGroup>
                 </CCol>

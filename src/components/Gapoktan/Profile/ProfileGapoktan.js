@@ -60,12 +60,18 @@ const ProfileGapoktan = () => {
         }
     }
 
-    formData.append('nama', values.nama);
+    if(values.nama) {
+        formData.append('nama', values.nama);
+    }
     if(values.kontak) {
         formData.append('kontak', values.kontak);
     }
     if(values.alamat) {
         formData.append('alamat', values.alamat);
+    }
+
+    if(values.kota) {
+        formData.append('kota', values.kota);
     }
 
     if (values.email) {
