@@ -90,11 +90,11 @@ export default class RequestDataListExt extends Component {
                                             pagination
                                             scopedSlots={{
                                                 aksi: (item) => {
-                                                return (
-                                                    <td className="py-2">
-                                                        <CButton size="sm" color="info" >Get Data</CButton>
-                                                    </td>
-                                                );
+                                                    return (
+                                                        <td className="py-2">
+                                                            <CButton size="sm" color="info" >Get Data</CButton>
+                                                        </td>
+                                                    );
                                                 },
                                             }}
                                             />

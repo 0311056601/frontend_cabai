@@ -53,6 +53,10 @@ class UserService {
         return axios.get(API_URL + "gapoktan-get-data-gudang", { headers: authHeader() });
     }
 
+    gapoktanGetDataGudangExternal(gapoktanId) {
+        return axios.get(API_URL + "gapoktan-get-data-gudang/"+ gapoktanId, { headers: authHeader() });
+    }
+
     gapoktanKonfirmasiProduk(produkId) {
         return axios.get(API_URL + "gapoktan-konrimasi-produk/"+ produkId, { headers: authHeader() });
     }

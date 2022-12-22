@@ -2,6 +2,7 @@ import { Fragment, React, Component } from "react";
 import "../Cabai.css";
 import "../CabaiMedia.css";
 import {
+  CBadge,
   CCard,
   CCardBody,
   CCardHeader,
@@ -31,6 +32,7 @@ export default class Market extends Component {
       loading: false,
       color: "#3c4b64",
       halaman: 'gapoktan',
+      stok: null,
     };
   }
   
@@ -81,6 +83,18 @@ export default class Market extends Component {
             },
 
         );
+
+        await UserService.gapoktanGetDataGudangExternal(item.id).then(
+
+            (response) => {
+                this.setState({
+                    gapoktan: item,
+                    stok: response.data.data,
+                    halaman: 'produk',
+                });
+            },
+
+        );
         
     }
 
@@ -123,6 +137,10 @@ export default class Market extends Component {
                                         </CRow>
                                     </CCardHeader>
                                     <CCardBody>
+                                        <h4>Stock Gudang:</h4>
+                                        <CBadge color="warning">Kualitas Super : {this.state.stok && this.state.stok.dataSuper ? this.state.stok.dataSuper : '0'}</CBadge> &nbsp;
+                                        <CBadge color="warning">Kualitas 1 : {this.state.stok && this.state.stok.data1 ? this.state.stok.data1 : '0'}</CBadge> &nbsp;
+                                        <CBadge color="warning">Kualitas 2 : {this.state.stok && this.state.stok.data2 ? this.state.stok.data2 : '0'}</CBadge> &nbsp;
                                         <CRow>
                                             <CCol xs="12" md="12" xl="12">
                                                 <CCardBody>

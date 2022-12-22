@@ -33,9 +33,11 @@ const HDWalletProvider = require("@truffle/hdwallet-provider");
 const RequestDataForm = (props) => {
   const { handleSubmit } = props;
   const [data, setData] = useState(null);
+  const { parse } = require('json2csv');
   let [loading, setLoading] = useState(false);
   let [color, setColor] = useState("#3c4b64");
   let [dataFBC, setDFBC] = useState([]);
+  // let [field, setField] = useState([]);
   let [listGapoktan, setListGapoktan] = useState(null);
   let [wallet, setWallet] = useState(null);
 
@@ -95,6 +97,8 @@ const RequestDataForm = (props) => {
 
   
   const getDataApprove = async (item) => {
+
+    const { Parser } = require('json2csv');
     console.log('cek item', item);
     setLoading(true)
 
@@ -109,11 +113,14 @@ const RequestDataForm = (props) => {
     // const akun = accounts[0];
 
     var getDataReq = [];
-    if(item.data === 'Transaksi') {
+    var getDataReqCsv = [];
+    if(item.data === "Transaksi") {
       // get transaksi
-        let contractTransaksi = new ethers.Contract(process.env.REACT_APP_TRANSAKSI_ADDRESS, AddTransaksi, signer);
+      let contractTransaksi = new ethers.Contract(process.env.REACT_APP_TRANSAKSI_ADDRESS, AddTransaksi, signer);
+      console.log('cek data transaksi', contractTransaksi);
         let transactionTransaksi = await contractTransaksi.getAllTransaksi();
         // await transactionProduk.wait();
+
 
         await transactionTransaksi.forEach(async function (value, index) {
           getDataReq.push(
@@ -129,8 +136,39 @@ const RequestDataForm = (props) => {
               "Tanggal" : value[8]
             }
           );
+
+          getDataReqCsv.push(
+            {
+              "Wallet Gapoktan" : value[0],
+              "Produk Hash" : value[2],
+              "Nama Produk" : value[3],
+              "Nomor Transaksi" : value[4],
+              "Nama Pembeli" : value[5],
+              "Email Pembeli" : value[6],
+              "Jumlah Pembayaran" : 'Rp. ' + JSON.parse(value[7]).jumlah_pembayaran,
+              "Estimasi Sampai" : JSON.parse(value[7]).est_sampai,
+              "Tanggal" : value[8]
+            }
+          );
+
         });
       // end get transaksi
+
+      // generate file csv
+      const fields = [`Wallet Gapoktan`, `Produk Hash`, `Nama Produk`, `Nomor Transaksi`, `Nama Pembeli`, `Email Pembeli`, `Jumlah Pembayaran`, `Estimasi Sampai`, `Tanggal`];
+      const opts = { fields };
+      const parser = new Parser(opts);
+      const csv = parser.parse(getDataReqCsv);
+
+      const fileName = "data";      
+      const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+      const href = await URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = fileName + ".csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
     } else if(item.data === 'Produk') {
       // get produk
@@ -148,8 +186,38 @@ const RequestDataForm = (props) => {
               "Tanggal" : value[4]
             }
           );
+
+          getDataReqCsv.push(
+            {
+              "Wallet Gapoktan" : value[0],
+              "Nama" : value[2],
+              "Deskripsi" : JSON.parse(value[3]).data ? JSON.parse(value[3]).data.deskripsi_produk : '-',
+              "Harga Jual" : JSON.parse(value[3]).data ? 'Rp. ' + JSON.parse(value[3]).data.harga_jual : '-',
+              "Biaya Pengemasan" : JSON.parse(value[3]).data ? 'Rp. ' + JSON.parse(value[3]).data.biaya_packaging : '-',
+              "Tanggal Pengemasan" : JSON.parse(value[3]).data ? JSON.parse(value[3]).data.tanggal_pengemasan : '-',
+              "Volume" : JSON.parse(value[3]).data ? JSON.parse(value[3]).data.volume + ' Kg' : '-',
+              "Kualitas" : JSON.parse(value[3]).data && JSON.parse(value[3]).data.get_detail[0] ? JSON.parse(value[3]).data.get_detail[0].kualitas_cabai : '-',
+              "Tanggal Panen" : JSON.parse(value[3]).data && JSON.parse(value[3]).data.get_detail[0] ? JSON.parse(value[3]).data.get_detail[0].tanggal_panen : '-'
+            }
+          );
         });
       // end get produk
+
+      // generate file csv
+      const fields = ['Wallet Gapoktan', 'Nama', 'Deskripsi', 'Harga Jual', 'Biaya Pengemasan', 'Tanggal Pengemasan', 'Volume', 'Kualitas', 'Tanggal Panen'];
+      const opts = { fields };
+      const parser = new Parser(opts);
+      const csv = parser.parse(getDataReqCsv);
+
+      const fileName = "data";      
+      const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+      const href = await URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = fileName + ".csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
     } else if(item.data === 'Pemesanan Cabai') {
 
@@ -171,8 +239,40 @@ const RequestDataForm = (props) => {
               "Tanggal" : value[7]
             }
           );
+
+          getDataReqCsv.push(
+            {
+              "Wallet Gapoktan" : value[0],
+              "Nomor Transaksi" : value[2],
+              "Gapoktan" : value[3],
+              "Nama Pembeli" : value[4],
+              "Email Pembeli" : JSON.parse(value[6]).pembeli.get_user.email,
+              "Harga" : 'Rp. ' + JSON.parse(value[6]).transaksi.harga,
+              "Kualitas" : JSON.parse(value[6]).transaksi.kualitas,
+              "Catatan" : JSON.parse(value[6]).transaksi.catatan,
+              "Supply Demand" : JSON.parse(value[6]).transaksi.supply_demand == 0 ? '0%' : '20%',
+              "Volume" : JSON.parse(value[6]).transaksi.volume + 'Kg',
+              "Tanggal Pembelian" : JSON.parse(value[6]).transaksi.tanggal_pembelian
+            }
+          );
         });
       // end get request
+
+      // generate file csv
+      const fields = ['Wallet Gapoktan', 'Nomor Transaksi', 'Gapoktan', 'Nama Pembeli', 'Email Pembeli', 'Harga', 'Kualitas', 'Catatan', 'Supply Demand', 'Volume', 'Estimasi Sampai', 'Tanggal Pembelian'];
+      const opts = { fields };
+      const parser = new Parser(opts);
+      const csv = parser.parse(getDataReqCsv);
+
+      const fileName = "data";      
+      const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+      const href = await URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = fileName + ".csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
     } else if(item.data === 'Expired') {
 
@@ -192,13 +292,40 @@ const RequestDataForm = (props) => {
               "Data" : JSON.parse(value[6]),
               "Tanggal" : value[7]
             }
+          );          
+
+          getDataReqCsv.push(
+            {
+              "Wallet Gapoktan" : value[0],
+              "Gapoktan" : JSON.parse(value[6]).get_gapoktan.username,
+              "Jumlah Volume" : JSON.parse(value[6]).jumlah_volume +' Kg',
+              "Catatan" : JSON.parse(value[6]).catatan,
+              "Tanggal" : value[7],
+              "Detail" : JSON.parse(value[6]).get_detail
+            }
           );
         });
       // end get expired
+
+      // generate file csv
+      const fields = ['Wallet Gapoktan', 'Gapoktan', 'Jumlah Volume', 'Catatan', 'Tanggal', 'Detail'];
+      const opts = { fields };
+      const parser = new Parser(opts);
+      const csv = parser.parse(getDataReqCsv);
+
+      const fileName = "data";      
+      const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+      const href = await URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = fileName + ".csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
       
     }
 
-    console.log("DATANYA NIH", getDataReq);
+    // console.log("DATANYA NIH", getDataReq);
 
     // insert into log
       const dataLog = new FormData();
@@ -211,7 +338,7 @@ const RequestDataForm = (props) => {
       UserService.addLogRequestData(dataLog);
     // end insert log
 
-
+    // generate file json
     const fileName = "file";
     // const json = JSON.stringify(getDataReq);
     const json = JSON.stringify(getDataReq, null, 4).replace(/[",\\]]/g, "");
@@ -256,6 +383,7 @@ const RequestDataForm = (props) => {
       { key: "gapoktan", label: "Data Gapoktan"},
       { key: "wallet", label: "Wallet Saya"},
       { key: "data", label: "Request Data"},
+      { key: "tanggal", label: "Tanggal"},
       { key: "status", label: "Status"},
       // { key: "approved_by", label: "Approve"},
       {
@@ -323,11 +451,19 @@ const RequestDataForm = (props) => {
                                               </td>
                                             )
                                           },
+                                          tanggal: (item) => {
+                                            return (
+                                                <td className="py-2">
+                                                    {moment(item.created_at).format('DD/MMM/YYYY')}
+                                                </td>
+                                            );
+                                          },
                                           aksi: (item) => {
                                             return (
                                                 <td className="py-2">
                                                     {(() => {
-                                                      if(item.status === 'Diterima') {
+                                                      // if(item.status === 'Diterima') {
+                                                      if(item.status === 'Diterima' || item.status === 'Berhasil Diminta') {
                                                         return (
                                                           <CButton size="sm" color="info" onClick={() => getDataApprove(item)} >Minta Data</CButton>
                                                         )
