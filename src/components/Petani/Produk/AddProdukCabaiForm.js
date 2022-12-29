@@ -30,6 +30,11 @@ const AddProdukCabaiForm = (props) => {
     props.onSelectImage(file);
   };
 
+  const handleVolume = (e) => {
+    const volume = e.target.value;
+    props.Volume(volume);
+  };
+
   const handleKualitas = async (e) => {
     console.log('cek change kualitas', e);
 
@@ -126,17 +131,22 @@ const AddProdukCabaiForm = (props) => {
                           />
                       </CFormGroup>
                   </CCol>
-                  {/* <CCol xs={6} md={6} lg={6} >
+                  <CCol xs={6} md={6} lg={6} >
                       <CFormGroup>
                           <CLabel> Volume Cabai (Kg)</CLabel>
                           <Field
                             className="textInput cabai"
                             name="volume"
+                            onChange={handleVolume}
+                            type="number"
+                            min="0"
                             component="input"
                             required={true}
                           />
                       </CFormGroup>
-                  </CCol> */}
+                  </CCol>
+                </CRow>
+                <CRow>
                   <CCol xs={6} md={6} lg={6} >
                       <CFormGroup>
                           <CLabel> Foto Cabai </CLabel>

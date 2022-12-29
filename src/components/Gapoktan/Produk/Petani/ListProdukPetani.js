@@ -195,7 +195,7 @@ export default class ListProdukPetani extends Component {
                                         return(
                                           <>
                                             <td>
-                                              {item.volume}
+                                              {item.volume} Kg
                                             </td>
                                           </>
                                         )

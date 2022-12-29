@@ -112,7 +112,8 @@ export default class Gudang extends Component {
   handleProcess = async () => {
     if(this.state.catatan) {
 
-      let catatan = this.state.catatan;
+      // let catatan = this.state.catatan;
+      let catatan = 'Cabai diproses menjadi cabai kering';
       let dataExp = this.state.dataExp;
       let exp = this.state.exp;
 
@@ -153,11 +154,13 @@ export default class Gudang extends Component {
   }
 
   getKarakter = (e) => {
-    console.log('cek karakter', e.target.value);
-    let val = e.target.value;
-    this.setState({
-      catatan: val,
-    })
+    // console.log('cek karakter', e.target.value);
+    // let val = e.target.value;
+    // this.setState({
+    //   catatan: val,
+    // })
+
+    // catatan default menjadi cabai kering
   }
 
   pushData = async (item, tglExpired) => {
@@ -345,7 +348,7 @@ export default class Gudang extends Component {
           </CModalHeader>
           <CModalBody>
             <CFormGroup>
-              <CLabel>Isi Catatan</CLabel>
+              {/* <CLabel>Isi Catatan</CLabel>
               <CTextarea 
                 onChange={this.getKarakter}
                 name="catatan" 
@@ -353,7 +356,17 @@ export default class Gudang extends Component {
                 rows="3"
                 placeholder="Catatan..." 
                 required={true}
-              />
+              /> */}
+              <CLabel>Informasi</CLabel>
+              <CTextarea
+                name="catatan" 
+                id="textarea-input" 
+                rows="3"
+                placeholder="Catatan..." 
+                disabled
+              >
+                Cabai akan diproses menjadi cabai kering
+              </CTextarea>
             </CFormGroup>
           </CModalBody>
           <CModalFooter>

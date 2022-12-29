@@ -24,6 +24,7 @@ const AddProdukCabai = () => {
     const [date, setDate] = useState("");
     const [data, setData] = useState(null);
     const [harga, setHarga] = useState(null);
+    const [volume, setVolume] = useState(null);
 
     const handleDate = (tgl) => {
         setDate(tgl);
@@ -35,6 +36,10 @@ const AddProdukCabai = () => {
 
     const handleHargaJual = (v) => {
         setHarga(v);
+    };
+
+    const handleVolume = (v) => {
+        setVolume(v);
     };
 
     const getData = () => {
@@ -63,6 +68,7 @@ const AddProdukCabai = () => {
             formData.append('tanggal_panen',date);
             formData.append('kualitas',values.kualitas);
             formData.append('harga', harga);
+            formData.append('volume', volume);
             // formData.append('volume',values.volume);
 
             for (let i = 0; i < gambar.length; i++) {
@@ -120,7 +126,7 @@ const AddProdukCabai = () => {
                         )
                     } else if(data) {
                         return(
-                            <AddProdukCabaiForm onSubmit={handleSubmit} onSelectImage={onFileChange} onSelectDate={handleDate} DATA={data} HargaJual={handleHargaJual} />
+                            <AddProdukCabaiForm onSubmit={handleSubmit} onSelectImage={onFileChange} onSelectDate={handleDate} DATA={data} Volume={handleVolume} HargaJual={handleHargaJual} />
                         )
                     } else {
                         <div style={{textAlign : 'center', verticalAlign : 'middle', paddingTop : "150px"}}>

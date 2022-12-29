@@ -138,7 +138,7 @@ export default class ProdukPetani extends Component {
       { key: "tanggal_panen", label: "Tanggal Panen"},
       { key: "kualitas", label: "Kualitas"},
       { key: "harga", label: "Harga"},
-      // { key: "volume", label: "Volume"},
+      { key: "volume", label: "Volume"},
       {
         key: "dataControl",
         label: "Aksi",
@@ -202,6 +202,13 @@ export default class ProdukPetani extends Component {
                                       </td>
                                     )
                                   },
+                                  volume:(item) => {
+                                    return(
+                                      <td>
+                                        {parseInt(item.volume).toLocaleString('en')} Kg
+                                      </td>
+                                    )
+                                  },
                                   dataControl: (item) => {
                                     return (
                                       <>
@@ -248,8 +255,8 @@ export default class ProdukPetani extends Component {
             <CModalTitle>Kirim ke Gapoktan</CModalTitle>
           </CModalHeader>
           <CModalBody>
-            {/* <strong>Pemberitahuan,</strong> ketika data dikirim ke gapktan, maka data tidak bisa lagi diubah atau dihapus */}
-            <strong>Pemberitahuan,</strong> ketika data dikirim ke gapktan, maka data tidak bisa lagi dihapus
+            {/* <strong>Pemberitahuan,</strong> ketika data dikirim ke gapoktan, maka data tidak bisa lagi diubah atau dihapus */}
+            <strong>Pemberitahuan,</strong> ketika data dikirim ke gapoktan, maka data tidak bisa lagi dihapus
           </CModalBody>
           <CModalFooter>
             <CButton color="secondary" onClick={this.setModal}>
