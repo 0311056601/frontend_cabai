@@ -110,7 +110,7 @@ export default class Gudang extends Component {
   }
 
   handleProcess = async () => {
-    if(this.state.catatan) {
+    // if(this.state.catatan) {
 
       // let catatan = this.state.catatan;
       let catatan = 'Cabai diproses menjadi cabai kering';
@@ -149,7 +149,7 @@ export default class Gudang extends Component {
 
       }
 
-    }
+    // }
 
   }
 
