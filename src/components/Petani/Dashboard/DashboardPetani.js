@@ -119,7 +119,10 @@ export default class DashboardPetani extends Component {
                       header={`${data.DLahan} Lahan`}
                       text="Jumlah Lahan Petani"
                     >
-                      <p style={{height:"70px"}}></p>
+                      {/* <p style={{height:"70px"}}></p> */}
+                      <p style={{height:"70px"}}>
+                        <CButton to="/ListLahan" color="danger">Detail</CButton>
+                      </p>
                     </CWidgetDropdown>
                   </CCol>
 
@@ -130,7 +133,10 @@ export default class DashboardPetani extends Component {
                       // header={`${data.DTransaksi.length + data.DTransaksiRequest.length} Transaksi`}
                       text="Jumlah Panen Petani"
                     >
-                      <p style={{height:"70px"}}></p>
+                      {/* <p style={{height:"70px"}}></p> */}
+                      <p style={{height:"70px"}}>
+                        <CButton to="/ProdukPetani" color="danger">Detail</CButton>
+                      </p>
                     </CWidgetDropdown>
                   </CCol>
 

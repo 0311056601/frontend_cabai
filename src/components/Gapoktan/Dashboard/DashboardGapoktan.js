@@ -301,7 +301,9 @@ export default class DashboardGapoktan extends Component {
                       header={`${data.DPetani} Petani`}
                       text="Jumlah Petani"
                     >
-                      <p style={{height:"70px"}}></p>
+                      <p style={{height:"70px"}}>
+                        <CButton to="/ListPetani" color="danger">Detail</CButton>
+                      </p>
                     </CWidgetDropdown>
                   </CCol>
 
@@ -312,7 +314,9 @@ export default class DashboardGapoktan extends Component {
                       // header={`${data.DTransaksi.length + data.DTransaksiRequest.length} Transaksi`}
                       text="Jumlah Transaksi Produk dan Request"
                     >
-                      <p style={{height:"70px"}}></p>
+                      <p style={{height:"70px"}}>
+                        <CButton to="/Transaksi/History" color="danger">Detail</CButton>
+                      </p>
                     </CWidgetDropdown>
                   </CCol>
 
